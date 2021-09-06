@@ -153,3 +153,19 @@ $post = Post::first();
 
 $shippingAddress = $post->getShippingAddress();
 ```
+
+#### Get the labels of all addresses of the model.
+
+```php
+$post = Post::first();
+
+$labels = $post->getAddressLabels();
+```
+
+## License
+
+Licensed under [MIT license](http://opensource.org/licenses/MIT).
+
+## Author
+
+**Written by [Karel Brijs](https://twitter.com/karelbrijs) in Antwerp.**
