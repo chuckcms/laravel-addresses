@@ -70,4 +70,23 @@ $address = $post->getPrimaryAddress();
 $post->updateAddress($address, ['label' => 'My new address']);
 ```
 
-#### 
+#### Delete an address from a model
+
+```php
+$post = Post::first();
+$address = $post->addresses()->first();
+
+if ($post->deleteAddress($address)) {
+	//do something
+}
+```
+
+#### Determine if a model has any addresses
+
+```php
+$post = Post::first();
+
+if ($post->hasAddresses()) {
+	//do something
+}
+```
