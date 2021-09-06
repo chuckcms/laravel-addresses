@@ -117,7 +117,7 @@ trait HasAddresses
     /**
      * Determine if the model has (one of) the given address(es).
      *
-     * @param int|array|\Chuck\Address\Contracts\Address|\Illuminate\Support\Collection $roles
+     * @param int|array|\Chuck\Address\Contracts\Address|\Illuminate\Support\Collection $addresses
      *
      * @return bool
      */

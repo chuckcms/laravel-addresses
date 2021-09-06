@@ -1,10 +1,14 @@
 # Laravel Addresses
 
 An easy way to manage addresses for Eloquent models in Laravel.
+Inspired by the following packages:
+- [rinvex/laravel-addresses](https://github.com/rinvex/laravel-addresses)
+- [Lecturize/Laravel-Addresses](https://github.com/Lecturize/Laravel-Addresses)
 
 ## Installation
 
 Require the package by running
+
 ``` composer require chuckcms/addresses```
 
 ## Publish configuration and migration
@@ -89,4 +93,63 @@ $post = Post::first();
 if ($post->hasAddresses()) {
 	//do something
 }
+```
+
+#### Determine if a model has (one of) the given address(es).
+
+```php
+use Chuckcms\Addresses\Models\Address;
+
+$post = Post::find();
+$address = Address::first();
+
+if ($post->hasAddress($address)) {
+	//do something
+}
+
+//OR
+if ($post->hasAddress($address->id)) {
+	//do something
+}
+
+//OR
+$addresses = Address::where('city', 'Chuck City')->get();
+if ($post->hasAddress($addresses)) {
+	//do something
+}
+
+//OR
+$addresses = Address::where('state', 'New Chuck State')->pluck('id')->toArray();
+if ($post->hasAddress($addresses)) {
+	//do something
+}
+```
+> This will return true when *one* of the given addresses belongs to the model.
+
+## Getters
+
+You can use the following methods to retrieve addresses and certain attributes.
+
+#### Get the primary address of the model.
+
+```php
+$post = Post::first();
+
+$primaryAddress = $post->getPrimaryAddress();
+```
+
+#### Get the billing address of the model.
+
+```php
+$post = Post::first();
+
+$billingAddress = $post->getBillingAddress();
+```
+
+#### Get the shipping address of the model.
+
+```php
+$post = Post::first();
+
+$shippingAddress = $post->getShippingAddress();
 ```
