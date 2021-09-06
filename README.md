@@ -14,14 +14,15 @@ This command will publish a ```config/addresses.php``` and a migration file.
 
 > You can modify the default fields and their rules by changing both of these files.
 
-Now you can run the migrations
+After publishing you can run the migrations
+
 ``` php artisan migrate ```
 
 ## Usage
 
 You can use the ```HasAddresses``` trait on any model.
 
-```
+```php
 <?php
 
 namespace App\Models;
@@ -37,34 +38,36 @@ class Post extends Model
 } 
 ```
 
-After this you can use the following methods.
+After doing this you can use the following methods.
 
-##### Add an address to a model
+#### Add an address to a model
 
-```
+```php
 $post = Post::first();
 $post->addAddress([
 	'label' 				=> 'My address', // required
 	'street' 				=> 'Main Street', // defaults to: null
-	'housenumber' 			=> '100', // defaults to: null
-	'housenumber_postfix' 	=> 'B1', // defaults to: null
-	'postal_code'			=> '10001', // defaults to: null
+	'housenumber' 				=> '100', // defaults to: null
+	'housenumber_postfix' 			=> 'B1', // defaults to: null
+	'postal_code'				=> '10001', // defaults to: null
 	'city'					=> 'Chuck City', // defaults to: null
 	'state'					=> 'New Chuck State', // defaults to: null
 	'country'				=> 'Chuckland', // defaults to: null
 	'latitude'				=> 51.13128, // defaults to: null
 	'longitude'				=> 4.57041, // defaults to: null
-	'is_primary'			=> true, // defaults to: false
-	'is_billing'			=> false, // defaults to: false
-	'is_shipping'			=> false, // defaults to: false
+	'is_primary'				=> true, // defaults to: false
+	'is_billing'				=> false, // defaults to: false
+	'is_shipping'				=> false, // defaults to: false
 ]);
 ```
 
-##### Update an existing address
+#### Update an existing address
 
-```
+```php
 $post = Post::first();
 $address = $post->getPrimaryAddress();
 
 $post->updateAddress($address, ['label' => 'My new address']);
 ```
+
+#### 
