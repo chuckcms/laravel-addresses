@@ -2,12 +2,11 @@
 
 namespace Chuckcms\Addresses\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Chuckcms\Addresses\Exceptions\AddressDoesNotExist;
 use Chuckcms\Addresses\Contracts\Address as AddressContract;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Chuckcms\Addresses\Exceptions\AddressDoesNotExist;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model implements AddressContract
 {
@@ -45,7 +44,7 @@ class Address extends Model implements AddressContract
     private function mergeFillables()
     {
         $fillable = $this->fillable;
-        $columns  = array_keys(config('addresses.fields.addresses'));
+        $columns = array_keys(config('addresses.fields.addresses'));
 
         $this->fillable(array_merge($fillable, $columns));
     }
@@ -137,7 +136,7 @@ class Address extends Model implements AddressContract
     {
         $address = static::where('id', $id)->first();
 
-        if (! $address) {
+        if (!$address) {
             throw AddressDoesNotExist::withId($id);
         }
 
