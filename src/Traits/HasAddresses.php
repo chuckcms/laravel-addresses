@@ -22,6 +22,11 @@ trait HasAddresses
     public static function bootHasAddresses()
     {
         static::deleting(function (self $model) {
+            if (method_exists($model, 'isForceDeleting') && $model->isForceDeleting()) {
+                $model->addresses()->forceDelete();
+                return;
+            }
+
             $model->addresses()->delete();
         });
     }
