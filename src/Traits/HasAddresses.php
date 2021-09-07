@@ -7,8 +7,8 @@ use Illuminate\Validation\Validator;
 use Chuckcms\Addresses\Contracts\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Chuckcms\Addresses\Exceptions\FailedValidation;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Chuckcms\Addresses\Models\Address as AddressModel;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasAddresses
 {
@@ -37,15 +37,16 @@ trait HasAddresses
 
     /**
      * A model may have multiple addresses.
+     *
+     * @return MorphMany
      */
-    public function addresses(): MorphToMany
+    public function addresses(): MorphMany
     {
-        return $this->morphToMany(
+        return $this->morphMany(
             config('addresses.models.address'),
-            'model',
-            config('addresses.table_names.model_has_addresses'),
-            config('addresses.column_names.model_morph_key'),
-            'address_id'
+            config('addresses.column_names.model_morph_name'),
+            config('addresses.column_names.model_morph_type'),
+            config('addresses.column_names.model_morph_key')
         );
     }
 
@@ -89,29 +90,51 @@ trait HasAddresses
     }
 
     /**
-     * Revoke the given address from the model.
+     * Deletes given address(es).
      *
-     * @param int|\Chuck\Addresses\Contracts\Address $address
-     */
-    protected function removeAddress($address)
-    {
-        $this->addresses()->detach($this->getStoredAddress($address));
-
-        $this->load('addresses');
-
-        return $this;
-    }
-
-    /**
-     * Deletes given address.
-     *
-     * @param  Address  $address
+     * @param  int|array|\Chuck\Address\Contracts\Address $addresses
+     * @param  bool $force
      * @return mixed
      * @throws Exception
      */
-    public function deleteAddress(Address $address): bool
+    public function deleteAddress($addresses, $force = false): bool
     {
-        return $this->addresses()->where('id', $address->id)->delete();
+        if (is_int($addresses) && $this->hasAddress($addresses)) {
+            return $force ? 
+                    $this->addresses()->where('id', $addresses)->forceDelete() : 
+                    $this->addresses()->where('id', $addresses)->delete();
+        }
+
+        if ($addresses instanceof Address && $this->hasAddress($addresses)) {
+            return $force ? 
+                    $this->addresses()->where('id', $addresses->id)->forceDelete() : 
+                    $this->addresses()->where('id', $addresses->id)->delete();
+        }
+
+        if (is_array($addresses)) {
+            foreach ($addresses as $address) {
+                if ($this->deleteAddress($address, $force)) {
+                    continue;
+                } 
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Forcefully deletes given address(es).
+     *
+     * @param  int|array|\Chuck\Address\Contracts\Address $addresses
+     * @param  bool $force
+     * @return mixed
+     * @throws Exception
+     */
+    public function forceDeleteAddress($addresses): bool
+    {
+        return $this->deleteAddress($addresses, true);
     }
 
     /**
@@ -149,19 +172,18 @@ trait HasAddresses
         return $this->addresses->pluck('label');
     }
 
-    protected function getStoredAddress($address): Address
+    /**
+     * Get the public address.
+     *
+     * @param  string  $direction
+     * @return Address|null
+     */
+    public function getPublicAddress(string $direction = 'desc'): ?Address
     {
-        $addressClass = $this->getAddressClass();
-
-        if (is_numeric($address)) {
-            return $addressClass->findById($address);
-        }
-
-        if ($address instanceof Address) {
-            return $addressClass->findById($address->id);
-        }
-
-        return $address;
+        return $this->addresses()
+                    ->isPublic()
+                    ->orderBy('is_public', $direction)
+                    ->first();
     }
 
     /**
@@ -173,7 +195,7 @@ trait HasAddresses
     public function getPrimaryAddress(string $direction = 'desc'): ?Address
     {
         return $this->addresses()
-                    ->primary()
+                    ->isPrimary()
                     ->orderBy('is_primary', $direction)
                     ->first();
     }
@@ -187,7 +209,7 @@ trait HasAddresses
     public function getBillingAddress(string $direction = 'desc'): ?Address
     {
         return $this->addresses()
-                    ->billing()
+                    ->isBilling()
                     ->orderBy('is_billing', $direction)
                     ->first();
     }
@@ -201,7 +223,7 @@ trait HasAddresses
     public function getShippingAddress(string $direction = 'desc'): ?Address
     {
         return $this->addresses()
-                    ->shipping()
+                    ->isShipping()
                     ->orderBy('is_shipping', $direction)
                     ->first();
     }

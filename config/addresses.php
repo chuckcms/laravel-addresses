@@ -21,18 +21,13 @@ return [
 
         'addresses' => 'addresses',
 
-        /*
-         * Define the table name to use when using the 'HasAddresses' trait for
-         * retrieving the models linked to the addresses.
-         */
-
-        'model_has_addresses' => 'model_has_addresses',
-
     ],
 
     'column_names' => [
 
-        'model_morph_key' => 'model_id',
+        'model_morph_name' => 'addressable',
+        'model_morph_key' => 'addressable_id',
+        'model_morph_type' => 'addressable_type',
 
     ],
 
@@ -48,6 +43,7 @@ return [
             'country' => 'nullable|alpha|size:2',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
+            'is_public' => 'sometimes|boolean',
             'is_primary' => 'sometimes|boolean',
             'is_billing' => 'sometimes|boolean',
             'is_shipping' => 'sometimes|boolean',

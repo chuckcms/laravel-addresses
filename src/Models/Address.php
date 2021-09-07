@@ -20,7 +20,7 @@ class Address extends Model implements AddressContract
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['addressable_id', 'addressable_type'];
 
     /**
      * The default rules that the model will validate against.
@@ -51,6 +51,16 @@ class Address extends Model implements AddressContract
     }
 
     /**
+     * Get the related model.
+     *
+     * @return MorphTo
+     */
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * Get the validation rules.
      *
      * @return array
@@ -60,6 +70,18 @@ class Address extends Model implements AddressContract
         $rules = config('addresses.fields.addresses');
 
         return $rules;
+    }
+
+    /**
+     * Scope public addresses.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsPublic(Builder $builder): Builder
+    {
+        return $builder->where('is_public', true);
     }
 
     /**

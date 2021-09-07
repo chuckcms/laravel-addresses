@@ -14,10 +14,11 @@ class CreateAddressesTables extends Migration
     public function up()
     {
         $tableNames = config('addresses.table_names');
-        $columnNames = config('addresses.column_names');
+        $morphName = config('addresses.column_names.model_morph_name');
 
-        Schema::create($tableNames['addresses'], function (Blueprint $table) {
+        Schema::create($tableNames['addresses'], function (Blueprint $table) use ($morphName) {
             $table->increments('id');
+            
             $table->string('label');
             $table->string('street')->nullable()->default(null);
             $table->string('housenumber')->nullable()->default(null);
@@ -26,29 +27,19 @@ class CreateAddressesTables extends Migration
             $table->string('city')->nullable()->default(null);
             $table->string('state')->nullable()->default(null);
             $table->string('country')->nullable()->default(null);
+            
             $table->string('latitude')->nullable()->default(null);
             $table->string('longitude')->nullable()->default(null);
+            
+            $table->boolean('is_public')->default(false);
             $table->boolean('is_primary')->default(false);
             $table->boolean('is_billing')->default(false);
             $table->boolean('is_shipping')->default(false);
+            
+            $table->nullableMorphs($morphName);
+
             $table->timestamps();
             $table->softDeletes();
-        });
-
-        Schema::create($tableNames['model_has_addresses'], function (Blueprint $table) use ($tableNames, $columnNames) {
-            $table->unsignedInteger('address_id');
-
-            $table->string('model_type');
-            $table->unsignedBigInteger($columnNames['model_morph_key']);
-            $table->index([$columnNames['model_morph_key'], 'model_type', ], 'model_has_roles_model_id_model_type_index');
-
-            $table->foreign('address_id')
-                ->references('id')
-                ->on($tableNames['addresses'])
-                ->onDelete('cascade');
-
-            $table->primary(['address_id', $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_addresses_address_model_type_primary');
         });
     }
 
@@ -61,7 +52,6 @@ class CreateAddressesTables extends Migration
     {
         $tableNames = config('addresses.table_names');
 
-        Schema::drop($tableNames['model_has_addresses']);
         Schema::drop($tableNames['addresses']);
     }
 }
