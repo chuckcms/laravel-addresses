@@ -9,9 +9,9 @@ interface Address
      *
      * @param int $id
      *
-     * @return \Chuck\Address\Contracts\Role
-     *
      * @throws \Chuck\Address\Exceptions\AddressDoesNotExist
+     *
+     * @return \Chuck\Address\Contracts\Role
      */
     public static function findById(int $id): self;
 }

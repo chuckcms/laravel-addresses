@@ -2,10 +2,10 @@
 
 namespace Chuckcms\Addresses;
 
-use Illuminate\Support\Collection;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\ServiceProvider;
 use Chuckcms\Addresses\Contracts\Address as AddressContract;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
+use Illuminate\Support\ServiceProvider;
 
 class AddressesServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class AddressesServiceProvider extends ServiceProvider
 
     public function doPublishing()
     {
-        if (! function_exists('config_path')) {
+        if (!function_exists('config_path')) {
             // function not available and 'publish' not relevant in Lumen (credit: Spatie)
             return;
         }
