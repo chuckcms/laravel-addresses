@@ -1,5 +1,9 @@
 # Laravel Addresses
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/chuckcms/addresses.svg?style=flat-square)](https://packagist.org/packages/chuckcms/addresses)
+[![StyleCI](https://github.styleci.io/repos/403383360/shield?branch=main)](https://github.styleci.io/repos/403383360?branch=main)
+[![Total Downloads](https://img.shields.io/packagist/dt/chuckcms/addresses.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-permission)
+
 An easy way to manage addresses for Eloquent models in Laravel.
 Inspired by the following packages:
 - [rinvex/laravel-addresses](https://github.com/rinvex/laravel-addresses)
