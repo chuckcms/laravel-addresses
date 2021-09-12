@@ -1,8 +1,8 @@
 {
-    "name": "chuckcms/addresses",
+    "name": "chuckcms/laravel-addresses",
     "description": "A ChuckCMS module for storing addresses.",
-    "keywords": ["chuckcms", "module", "addresses"],
-    "homepage": "https://github.com/chuckcms/addresses",
+    "keywords": ["laravel", "chuckcms", "module", "addresses"],
+    "homepage": "https://github.com/chuckcms/laravel-addresses",
     "license": "MIT",
     "authors": [
         {
