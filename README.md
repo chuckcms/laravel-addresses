@@ -1,9 +1,9 @@
 # Laravel Addresses
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/chuckcms/addresses.svg?style=flat-square)](https://packagist.org/packages/chuckcms/addresses)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/chuckcms/laravel-addresses.svg?style=flat-square)](https://packagist.org/packages/chuckcms/laravel-addresses)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chuckcms/addresses/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/chuckcms/addresses/?branch=main)
 [![StyleCI](https://github.styleci.io/repos/403383360/shield?branch=main)](https://github.styleci.io/repos/403383360?branch=main)
-[![Total Downloads](https://img.shields.io/packagist/dt/chuckcms/addresses.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-permission)
+[![Total Downloads](https://img.shields.io/packagist/dt/chuckcms/laravel-addresses.svg?style=flat-square)](https://packagist.org/packages/chuckcms/laravel-addresses)
 
 An easy way to manage addresses for Eloquent models in Laravel.
 Inspired by the following packages:
