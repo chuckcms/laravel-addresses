@@ -14,7 +14,7 @@ Inspired by the following packages:
 
 Require the package by running
 
-``` composer require chuckcms/addresses```
+``` composer require chuckcms/laravel-addresses```
 
 ## Publish configuration and migration
 ``` php artisan vendor:publish --provider="Chuckcms\Addresses\AddressesServiceProvider" ```
